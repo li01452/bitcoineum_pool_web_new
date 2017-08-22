@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -171,7 +172,7 @@ $(document).ready(function() {
     }, {
         "constant": true,
         "inputs": [],
-        "name": "max_users",
+        "name": "total_users",
         "outputs": [{
             "name": "",
             "type": "uint256"
@@ -181,7 +182,7 @@ $(document).ready(function() {
     }, {
         "constant": true,
         "inputs": [],
-        "name": "total_users",
+        "name": "available_slots",
         "outputs": [{
             "name": "",
             "type": "uint256"
@@ -206,8 +207,12 @@ $(document).ready(function() {
     $("table tr").eq(1).find("td").eq(1).html(((poolETH1 / sumPoolETH * 100).toFixed(2) + "%"));
     $("table tr").eq(2).find("td").eq(1).html(((poolETH2 / sumPoolETH * 100).toFixed(2) + "%"));
     //剩余位置
-    $("table tr").eq(1).find("td").eq(2).html((metacoin0.max_users.call().toNumber() - metacoin0.total_users.call().toNumber()));
-    $("table tr").eq(2).find("td").eq(2).html((metacoin1.max_users.call().toNumber() - metacoin1.total_users.call().toNumber()));
+    $("table tr").eq(1).find("td").eq(2).html((metacoin0.available_slots.call().toNumber()));
+    $("table tr").eq(2).find("td").eq(2).html((metacoin1.available_slots.call().toNumber()));
+
+    console.log("total:");
+    console.log(metacoin0.total_users.call().toNumber());
+    console.log(metacoin1.total_users.call().toNumber());
 
     //单位转换
     function toEth(Wei) {
@@ -243,12 +248,6 @@ $(document).ready(function() {
         $("#RemainETH").html(toEth(bteInfo1[3].toNumber() + bteInfo2[3].toNumber()));
         var cost = ((toEth((bteInfo1[2].toNumber() + bteInfo2[2].toNumber()) - (bteInfo1[3].toNumber() + bteInfo2[3].toNumber()))) / ((metacoin0.balanceOf.call(who).toNumber() + metacoin1.balanceOf.call(who).toNumber()) / 100000000)).toFixed(4)
         $("#cost").html(cost);
-        // 取人民币成本，暂时弃用
-        // var price = $("div.coinmarketcap-currency-widget > div > div > div > span:eq(1)").text();
-        // if (price != "") {
-        //     price = price.substring(0, price.indexOf("CNY") - 1) * cost;
-        //     $("#cost").append() = price.toFixed(2) + "CNY/BTE";
-        // }
     }
 });
 </script>
